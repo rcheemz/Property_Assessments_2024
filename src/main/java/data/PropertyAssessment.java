@@ -5,8 +5,7 @@ import java.util.Objects;
 public class PropertyAssessment implements Comparable<PropertyAssessment> {
     private String accountNumber;
     private Address address;
-    private String neighbourhood;
-    private String ward;
+    private Neighbourhood neighbourhood;
     private double assessedValue;
     private String assessmentClass1;
 
@@ -15,17 +14,15 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     public PropertyAssessment() {
         this.accountNumber = "";
         this.address = new Address("", "", "");
-        this.neighbourhood = "";
-        this.ward = "";
+        this.neighbourhood = new Neighbourhood("","","");
         this.assessedValue = 0.0;
         this.assessmentClass1 = "";
     }
 
-    public PropertyAssessment(String accountNumber, Address address, String neighbourhood, String ward, double assessedValue) {
+    public PropertyAssessment(String accountNumber, Address address, Neighbourhood neighbourhood, String ward, double assessedValue) {
         this.accountNumber = accountNumber;
         this.address = address;
         this.neighbourhood = neighbourhood;
-        this.ward = ward;
         this.assessedValue = assessedValue;
     }
 
@@ -47,13 +44,10 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
 
 
 
-    public String getNeighbourhood() {
+    public Neighbourhood getNeighbourhood() {
         return neighbourhood;
     }
 
-    public String getWard() {
-        return ward;
-    }
 
 
     public String getAssessmentClass1() {
@@ -63,8 +57,8 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     // Convert object data to string
     @Override
     public String toString() {
-        return String.format("Account: %s, data.Address: %s,%s, (Ward %s), Assessed Value: $%,.2f, Class: %s",
-                accountNumber, address, neighbourhood, ward, assessedValue, assessmentClass1);
+        return String.format("Account: %s, data.Address: %s,%s, Assessed Value: $%,.2f, Class: %s",
+                accountNumber, address, neighbourhood, assessedValue, assessmentClass1);
     }
 
     // Override equals to use accountNumber

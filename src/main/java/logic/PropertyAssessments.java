@@ -2,6 +2,7 @@ package logic;
 
 import com.opencsv.exceptions.CsvValidationException;
 import data.Address;
+import data.Neighbourhood;
 import data.PropertyAssessment;
 
 import java.io.BufferedReader;
@@ -18,6 +19,9 @@ public class PropertyAssessments {
     private String filePath;
 
     // takes list of properties
+    public PropertyAssessments(List<PropertyAssessment> assessments){
+        this.assessments = assessments;
+    }
 
 
     // Initialize assessments list to store data.PropertyAssessment objects
@@ -45,11 +49,13 @@ public class PropertyAssessments {
                 String suite = row[1];
                 String houseNumber = row[2];
                 String street = row[3];
-                String neighbourhood = row[6];
+                String neighbourhoodId = row[5];
+                String neighbourhoodName = row[6];
                 String ward = row[7];
                 String assessedValue = row[8];
                 double parsedValue = Double.parseDouble(assessedValue);
                 Address address = new Address(houseNumber,suite,street);
+                Neighbourhood neighbourhood = new Neighbourhood(neighbourhoodId,neighbourhoodName,ward);
                 assessments.add(new PropertyAssessment(
                         accountNumber,
                         address,
@@ -232,40 +238,70 @@ public class PropertyAssessments {
      * @return
      */
     public String findByNeighbourhood(String neighbourhood) {
-        // Filter properties by neighbourhood
-        List<PropertyAssessment> filteredAssessments = assessments.stream()
-                .filter(assessment -> neighbourhood.equalsIgnoreCase(assessment.getNeighbourhood()))
-                .collect(Collectors.toList());
+        List<PropertyAssessment> targetNeighbourHood = new ArrayList<>();
 
-        // Check if any properties were found
-        if (filteredAssessments.isEmpty()) {
-            return "Error: No properties found in neighbourhood: " + neighbourhood;
+        // Filter properties by neighbourhood
+        for (PropertyAssessment assessment : assessments) {
+            if (neighbourhood.equalsIgnoreCase(assessment.getNeighbourhood().getNeighbourhoodName())) {
+                targetNeighbourHood.add(assessment);
+            }
         }
 
-        // Temporarily set the assessments list to the filtered list
-        // This is so we can use the get min and max methods
-        List<PropertyAssessment> originalList = new ArrayList<>(assessments);
-        this.assessments = filteredAssessments;
+        double minValue = 0.0;
+        double maxValue = 0.0;
+        double meanValue= 0.0;
+        // Check if any properties were found
+        if (targetNeighbourHood.isEmpty()) {
+            return "Error: No properties found in neighbourhood: " + neighbourhood;
+        }
+        else {
+             PropertyAssessments propertyAssessments = new PropertyAssessments(targetNeighbourHood);
+                // Calculate statistics using methods
+                minValue = propertyAssessments.getMinValue();
+                maxValue = propertyAssessments.getMaxValue();
+                meanValue = getMeanAssessedValue();
+            return String.format("data.Neighbourhood: %s%nNumber of Properties: %d%nMin Value: $%,.2f%nMax Value: $%,.2f%nMean Value: $%,.2f",
+                    neighbourhood, targetNeighbourHood.size(), minValue, maxValue, meanValue);
 
-        // Calculate statistics using methods
-        double minValue = getMinValue();
-        double maxValue = getMaxValue();
-        double meanValue = getMeanAssessedValue();
+        }
 
-        //Find the property with the maximum assessed value
-        //data.PropertyAssessment maxValueProperty = filteredAssessments.stream()
-          //      .max((a, b) -> Double.compare(a.getAssessedValue(), b.getAssessedValue()))
-            //    .orElse(null);
-
-        //String maxValueAddress = maxValueProperty != null ? maxValueProperty.getAddress().toString() : "N/A"
-
-
-        // Restore the original assessments list
-        this.assessments = originalList;
-
-        // Format and return the result
-        return String.format("data.Neighbourhood: %s%nNumber of Properties: %d%nMin Value: $%,.2f%nMax Value: $%,.2f%nMean Value: $%,.2f",
-                neighbourhood, filteredAssessments.size(), minValue, maxValue, meanValue);
     }
+
+    /**
+     * This is not good function but work temp.
+     * This method I'm changing the assessments list and then bring it back
+     * This can mess up the data if something goes wrong
+     * Can be refactored using a data.Neighbourhood class
+     * ASK for help regarding this
+     * @param neighbourhood
+     * @return
+     */
+    public String findByNeighbourhoodMain3(String neighbourhood) {
+        List<PropertyAssessment> targetNeighbourHoodLab3 = new ArrayList<>();
+
+        // Filter properties by neighbourhood
+        for (PropertyAssessment assessment : assessments) {
+            if (neighbourhood.equalsIgnoreCase(assessment.getNeighbourhood().getNeighbourhoodName())) {
+                targetNeighbourHoodLab3.add(assessment);
+            }
+        }
+
+        double medianValue = 0.0;
+        double meanValue= 0.0;
+        // Check if any properties were found
+        if (targetNeighbourHoodLab3.isEmpty()) {
+            return "Error: No neighbourhood found named: " + neighbourhood;
+        }
+        else {
+            PropertyAssessments propertyAssessments = new PropertyAssessments(targetNeighbourHoodLab3);
+            // Calculate statistics using methods
+            medianValue = getMedianAssessedValue();
+            meanValue = getMeanAssessedValue();
+            return String.format("There are %s properties in %s \nThe mean value is: %s\nThe median value is: \n", targetNeighbourHoodLab3.size(), meanValue, medianValue);
+
+        }
+
+    }
+
 
 }
