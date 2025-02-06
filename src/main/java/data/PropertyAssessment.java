@@ -1,9 +1,10 @@
+package data;
+
 import java.util.Objects;
 
 public class PropertyAssessment implements Comparable<PropertyAssessment> {
     private String accountNumber;
-    private String houseNumber;
-    private String street;
+    private Address address;
     private String neighbourhood;
     private String ward;
     private double assessedValue;
@@ -13,18 +14,16 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     // Default
     public PropertyAssessment() {
         this.accountNumber = "";
-        this.houseNumber = "";
-        this.street = "";
+        this.address = new Address("", "", "");
         this.neighbourhood = "";
         this.ward = "";
         this.assessedValue = 0.0;
         this.assessmentClass1 = "";
     }
 
-    public PropertyAssessment(String accountNumber, String houseNumber, String street, String neighbourhood, String ward, double assessedValue) {
+    public PropertyAssessment(String accountNumber, Address address, String neighbourhood, String ward, double assessedValue) {
         this.accountNumber = accountNumber;
-        this.houseNumber = houseNumber;
-        this.street = street;
+        this.address = address;
         this.neighbourhood = neighbourhood;
         this.ward = ward;
         this.assessedValue = assessedValue;
@@ -41,12 +40,8 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     }
 
 
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public String getStreet() {
-        return street;
+    public Address getAddress() {
+        return address;
     }
 
 
@@ -68,8 +63,8 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     // Convert object data to string
     @Override
     public String toString() {
-        return String.format("Account: %s, Address: %s %s, %s (Ward %s), Assessed Value: $%,.2f, Class: %s",
-                accountNumber, houseNumber, street, neighbourhood, ward, assessedValue, assessmentClass1);
+        return String.format("Account: %s, data.Address: %s,%s, (Ward %s), Assessed Value: $%,.2f, Class: %s",
+                accountNumber, address, neighbourhood, ward, assessedValue, assessmentClass1);
     }
 
     // Override equals to use accountNumber

@@ -1,13 +1,10 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+package main;
+
+import logic.PropertyAssessments;
+
 import java.util.Scanner;
 
-public class Main {
+public class Lab2Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -33,6 +30,10 @@ public class Main {
             String accountData = propertyAssessments.findByAccountNumber(accountNumber);
             System.out.print(accountData);
             System.out.println();
+            System.out.print("data.Neighbourhood Statistics: ");
+            String neighbourhood = scanner.nextLine();
+            String neighbourhoodData = propertyAssessments.findByNeighbourhood(neighbourhood);
+            System.out.print(neighbourhoodData);
 
         }
         catch (Exception e){

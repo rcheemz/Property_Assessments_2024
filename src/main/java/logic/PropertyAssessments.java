@@ -1,7 +1,10 @@
+package logic;
+
 import com.opencsv.exceptions.CsvValidationException;
+import data.Address;
+import data.PropertyAssessment;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -14,7 +17,10 @@ public class PropertyAssessments {
     private List<PropertyAssessment> assessments;
     private String filePath;
 
-    // Initialize assessments list to store PropertyAssessment objects
+    // takes list of properties
+
+
+    // Initialize assessments list to store data.PropertyAssessment objects
     public PropertyAssessments(String csvFileName) throws CsvValidationException {
 
         this.assessments = new ArrayList<>();
@@ -27,7 +33,7 @@ public class PropertyAssessments {
     }
 
     /**
-     * Read the contents of a CSV file and store the data as PropertyAssessment objects.
+     * Read the contents of a CSV file and store the data as data.PropertyAssessment objects.
      * @param csvFileName - the CSV file name
      * @throws IOException - input/output error
      */
@@ -36,16 +42,17 @@ public class PropertyAssessments {
         for (String[] row : data) {
             if (row.length >= 8) { // Ensure we have enough columns to prevent index errors
                 String accountNumber = row[0];
+                String suite = row[1];
                 String houseNumber = row[2];
                 String street = row[3];
                 String neighbourhood = row[6];
                 String ward = row[7];
                 String assessedValue = row[8];
                 double parsedValue = Double.parseDouble(assessedValue);
+                Address address = new Address(houseNumber,suite,street);
                 assessments.add(new PropertyAssessment(
                         accountNumber,
-                        houseNumber,
-                        street,
+                        address,
                         neighbourhood,
                         ward,
                         parsedValue));
@@ -150,7 +157,7 @@ public class PropertyAssessments {
 
                 // If this value is greater than the current maximumValue
                 if (value > maximumValue) {
-                    maximumValue = value; // Set maximumValue to this value
+                    maximumValue = value;// Set maximumValue to this value
                 }
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 // Skip the row if it is an invalid row
@@ -215,6 +222,50 @@ public class PropertyAssessments {
         return "Error: invalid account number: " + accountNumber;
     }
 
+    /**
+     * This is not good function but work temp.
+     * This method I'm changing the assessments list and then bring it back
+     * This can mess up the data if something goes wrong
+     * Can be refactored using a data.Neighbourhood class
+     * ASK for help regarding this
+     * @param neighbourhood
+     * @return
+     */
+    public String findByNeighbourhood(String neighbourhood) {
+        // Filter properties by neighbourhood
+        List<PropertyAssessment> filteredAssessments = assessments.stream()
+                .filter(assessment -> neighbourhood.equalsIgnoreCase(assessment.getNeighbourhood()))
+                .collect(Collectors.toList());
 
+        // Check if any properties were found
+        if (filteredAssessments.isEmpty()) {
+            return "Error: No properties found in neighbourhood: " + neighbourhood;
+        }
+
+        // Temporarily set the assessments list to the filtered list
+        // This is so we can use the get min and max methods
+        List<PropertyAssessment> originalList = new ArrayList<>(assessments);
+        this.assessments = filteredAssessments;
+
+        // Calculate statistics using methods
+        double minValue = getMinValue();
+        double maxValue = getMaxValue();
+        double meanValue = getMeanAssessedValue();
+
+        //Find the property with the maximum assessed value
+        //data.PropertyAssessment maxValueProperty = filteredAssessments.stream()
+          //      .max((a, b) -> Double.compare(a.getAssessedValue(), b.getAssessedValue()))
+            //    .orElse(null);
+
+        //String maxValueAddress = maxValueProperty != null ? maxValueProperty.getAddress().toString() : "N/A"
+
+
+        // Restore the original assessments list
+        this.assessments = originalList;
+
+        // Format and return the result
+        return String.format("data.Neighbourhood: %s%nNumber of Properties: %d%nMin Value: $%,.2f%nMax Value: $%,.2f%nMean Value: $%,.2f",
+                neighbourhood, filteredAssessments.size(), minValue, maxValue, meanValue);
+    }
 
 }
