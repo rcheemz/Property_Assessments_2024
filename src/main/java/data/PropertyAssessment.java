@@ -57,8 +57,9 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     // Convert object data to string
     @Override
     public String toString() {
-        return String.format("Account: %s, data.Address: %s,%s, Assessed Value: $%,.2f, Class: %s",
-                accountNumber, address, neighbourhood, assessedValue, assessmentClass1);
+        String newline = System.lineSeparator();
+        return String.format("Account = %s" + newline + "Address = %s"+ newline + "Assessed Value = $%,.2f"+newline+"Class = %s" + newline + "Neighbourhood = %s" + newline,
+                accountNumber, address, assessedValue, assessmentClass1, neighbourhood);
     }
 
     // Override equals to use accountNumber

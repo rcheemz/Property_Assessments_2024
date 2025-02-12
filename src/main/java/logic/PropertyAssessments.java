@@ -108,7 +108,7 @@ public class PropertyAssessments {
      * Get total number of rows in the assessments list
      * @return the lowest assessed value among all property assessments
      */
-    public int getAllRecords(){
+    public int getSize(){
 
         return assessments.size();
     }
@@ -234,10 +234,10 @@ public class PropertyAssessments {
      * This can mess up the data if something goes wrong
      * Can be refactored using a data.Neighbourhood class
      * ASK for help regarding this
-     * @param neighbourhood
-     * @return
+     * @param neighbourhood - name of neighbourhood target
+     * @return PropertyAssessments
      */
-    public String findByNeighbourhood(String neighbourhood) {
+    public PropertyAssessments findByNeighbourhood(String neighbourhood) {
         List<PropertyAssessment> targetNeighbourHood = new ArrayList<>();
 
         // Filter properties by neighbourhood
@@ -247,60 +247,13 @@ public class PropertyAssessments {
             }
         }
 
-        double minValue = 0.0;
-        double maxValue = 0.0;
-        double meanValue= 0.0;
-        // Check if any properties were found
         if (targetNeighbourHood.isEmpty()) {
-            return "Error: No properties found in neighbourhood: " + neighbourhood;
+            return null;
         }
         else {
-             PropertyAssessments propertyAssessments = new PropertyAssessments(targetNeighbourHood);
-                // Calculate statistics using methods
-                minValue = propertyAssessments.getMinValue();
-                maxValue = propertyAssessments.getMaxValue();
-                meanValue = getMeanAssessedValue();
-            return String.format("data.Neighbourhood: %s%nNumber of Properties: %d%nMin Value: $%,.2f%nMax Value: $%,.2f%nMean Value: $%,.2f",
-                    neighbourhood, targetNeighbourHood.size(), minValue, maxValue, meanValue);
-
+             PropertyAssessments neighbourhoodAssessments = new PropertyAssessments(targetNeighbourHood);
+                return neighbourhoodAssessments;
         }
-
-    }
-
-    /**
-     * This is not good function but work temp.
-     * This method I'm changing the assessments list and then bring it back
-     * This can mess up the data if something goes wrong
-     * Can be refactored using a data.Neighbourhood class
-     * ASK for help regarding this
-     * @param neighbourhood
-     * @return
-     */
-    public String findByNeighbourhoodMain3(String neighbourhood) {
-        List<PropertyAssessment> targetNeighbourHoodLab3 = new ArrayList<>();
-
-        // Filter properties by neighbourhood
-        for (PropertyAssessment assessment : assessments) {
-            if (neighbourhood.equalsIgnoreCase(assessment.getNeighbourhood().getNeighbourhoodName())) {
-                targetNeighbourHoodLab3.add(assessment);
-            }
-        }
-
-        double medianValue = 0.0;
-        double meanValue= 0.0;
-        // Check if any properties were found
-        if (targetNeighbourHoodLab3.isEmpty()) {
-            return "Error: No neighbourhood found named: " + neighbourhood;
-        }
-        else {
-            PropertyAssessments propertyAssessments = new PropertyAssessments(targetNeighbourHoodLab3);
-            // Calculate statistics using methods
-            medianValue = getMedianAssessedValue();
-            meanValue = getMeanAssessedValue();
-            return String.format("There are %s properties in %s \nThe mean value is: %s\nThe median value is: \n", targetNeighbourHoodLab3.size(), meanValue, medianValue);
-
-        }
-
     }
 
 

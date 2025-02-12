@@ -2,6 +2,7 @@ package main;
 
 import logic.PropertyAssessments;
 
+import java.awt.desktop.SystemEventListener;
 import java.util.Scanner;
 
 public class Lab3Main {
@@ -10,19 +11,28 @@ public class Lab3Main {
 
         // Get file from client
 
-        System.out.print("Enter CSV file: ");
+        System.out.print("Please enter the CSV filename: ");
         String csvFileName = scanner.nextLine();
 
         try{
             PropertyAssessments propertyAssessments = new PropertyAssessments(csvFileName); // pass file name
-            //propertyAssessments.loadFromCSV(csvFileName);
 
             System.out.println();
             // Get account number from client
-            System.out.print("Please enter neighbourhood: ");
+            System.out.print("Please enter a neighbourhood name: ");
             String neighbourhood = scanner.nextLine();
-            String neighbourhoodData = propertyAssessments.findByNeighbourhoodMain3(neighbourhood);
-            System.out.print(neighbourhoodData);
+
+            PropertyAssessments neighbourHoods = propertyAssessments.findByNeighbourhood(neighbourhood);
+            // Check if any neighbourhood was found
+            if (neighbourHoods == null) {
+                System.out.println("No neighbourhood found");
+            }
+
+            else {
+                System.out.println("There are "+ neighbourHoods.getSize() + "properties in " + neighbourhood);
+                System.out.println("The mean value is CAD " + neighbourHoods.getMeanAssessedValue());
+                System.out.println("The median value is CAD " + neighbourHoods.getMedianAssessedValue());
+            }
 
         }
         catch (Exception e){
