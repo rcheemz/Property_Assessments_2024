@@ -2,6 +2,7 @@ package logic;
 
 import com.opencsv.exceptions.CsvValidationException;
 import data.Address;
+import data.AssessmentClass;
 import data.Neighbourhood;
 import data.PropertyAssessment;
 
@@ -43,28 +44,54 @@ public class PropertyAssessments {
      */
     public void loadFromCSV(String csvFileName) throws IOException {
         String[][] data = readData(csvFileName);
+
         for (String[] row : data) {
-            if (row.length >= 8) { // Ensure we have enough columns to prevent index errors
-                String accountNumber = row[0];
-                String suite = row[1];
-                String houseNumber = row[2];
-                String street = row[3];
-                String neighbourhoodId = row[5];
-                String neighbourhoodName = row[6];
-                String ward = row[7];
-                String assessedValue = row[8];
-                double parsedValue = Double.parseDouble(assessedValue);
-                Address address = new Address(houseNumber,suite,street);
-                Neighbourhood neighbourhood = new Neighbourhood(neighbourhoodId,neighbourhoodName,ward);
-                assessments.add(new PropertyAssessment(
-                        accountNumber,
-                        address,
-                        neighbourhood,
-                        ward,
-                        parsedValue));
+            // Ensure every row has exactly 18 columns by filling missing values
+            row = Arrays.copyOf(row, 18);
+            for (int i = 0; i < row.length; i++) {
+                if (row[i] == null || row[i].trim().equals("<null>")) {
+                    row[i] = ""; // Replace <null> or missing values with empty string
+                }
             }
+
+            String accountNumber = row[0];
+            String suite = row[1];
+            String houseNumber = row[2];
+            String street = row[3];
+            String neighbourhoodId = row[5];
+            String neighbourhoodName = row[6];
+            String ward = row[7];
+            String assessedValue = row[8];
+
+            // If assessed value is empty, set to 0
+            double parsedValue = assessedValue.isEmpty() ? 0.0 : Double.parseDouble(assessedValue);
+
+            // Extract AssessmentClass fields
+            String percent1 = row[12].isEmpty() ? "0" : row[12];
+            String percent2 = row[13].isEmpty() ? "0" : row[13];
+            String percent3 = row[14].isEmpty() ? "0" : row[14];
+            String class1 = row[15].isEmpty() ? "Unknown" : row[15];
+            String class2 = row[16].isEmpty() ? "Unknown" : row[16];
+            String class3 = row[17].isEmpty() ? "Unknown" : row[17];
+
+            AssessmentClass assessmentClass = new AssessmentClass(percent1, percent2, percent3, class1, class2, class3);
+            Address address = new Address(houseNumber, suite, street);
+            Neighbourhood neighbourhood = new Neighbourhood(neighbourhoodId, neighbourhoodName, ward);
+
+            // Add the property assessment even if some fields are missing
+            assessments.add(new PropertyAssessment(
+                    accountNumber,
+                    address,
+                    neighbourhood,
+                    ward,
+                    parsedValue,
+                    assessmentClass));
         }
+
+        System.out.println("Total properties loaded: " + assessments.size());
     }
+
+
 
     /**
      * Read the contents of a CSV file and return data as a 2D array of String.

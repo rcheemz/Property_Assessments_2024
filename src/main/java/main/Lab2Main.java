@@ -34,6 +34,7 @@ public class Lab2Main {
 
             PropertyAssessments neighbourHoods = propertyAssessments.findByNeighbourhood(neighbourhood);
 
+            //Property_Assessment_Data_2024.csv
             // Check if any neighbourhood was found
             if (neighbourHoods == null) {
                 System.out.println("No neighbourhood found");

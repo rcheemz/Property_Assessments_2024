@@ -18,6 +18,16 @@ public class AssessmentClass {
         this.assessmentClass2 = "";
         this.assessmentClass3 = "";
     }
+    public AssessmentClass(String assessmentPrecent1, String assessmentPrecent2, String assessmentPrecent3,
+                           String assessmentClass1, String assessmentClass2, String assessmentClass3) {
+        this.assessmentPrecent1 = assessmentPrecent1;
+        this.assessmentPrecent2 = assessmentPrecent2;
+        this.assessmentPrecent3 = assessmentPrecent3;
+        this.assessmentClass1 = assessmentClass1;
+        this.assessmentClass2 = assessmentClass2;
+        this.assessmentClass3 = assessmentClass3;
+    }
+
 
     public String getAssessmentPrecent1() {
         return assessmentPrecent1;

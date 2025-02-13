@@ -7,27 +7,26 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     private Address address;
     private Neighbourhood neighbourhood;
     private double assessedValue;
-    private String assessmentClass1;
+    private AssessmentClass assessmentClass; // Updated to use AssessmentClass object
 
-
-    // Default
+    // Default Constructor
     public PropertyAssessment() {
         this.accountNumber = "";
         this.address = new Address("", "", "");
-        this.neighbourhood = new Neighbourhood("","","");
+        this.neighbourhood = new Neighbourhood("", "", "");
         this.assessedValue = 0.0;
-        this.assessmentClass1 = "";
+        this.assessmentClass = new AssessmentClass(); // Initialize empty
     }
 
-    public PropertyAssessment(String accountNumber, Address address, Neighbourhood neighbourhood, String ward, double assessedValue) {
+    public PropertyAssessment(String accountNumber, Address address, Neighbourhood neighbourhood, String ward, double assessedValue, AssessmentClass assessmentClass) {
         this.accountNumber = accountNumber;
         this.address = address;
         this.neighbourhood = neighbourhood;
         this.assessedValue = assessedValue;
+        this.assessmentClass = assessmentClass;
     }
 
-
-    // Get methods
+    // Getters
     public double getAssessedValue() {
         return assessedValue;
     }
@@ -36,30 +35,28 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         return accountNumber;
     }
 
-
     public Address getAddress() {
         return address;
     }
-
-
-
 
     public Neighbourhood getNeighbourhood() {
         return neighbourhood;
     }
 
-
-
-    public String getAssessmentClass1() {
-        return assessmentClass1;
+    public AssessmentClass getAssessmentClass() {
+        return assessmentClass;
     }
 
     // Convert object data to string
     @Override
     public String toString() {
         String newline = System.lineSeparator();
-        return String.format("Account = %s" + newline + "Address = %s"+ newline + "Assessed Value = $%,.2f"+newline+"Class = %s" + newline + "Neighbourhood = %s" + newline,
-                accountNumber, address, assessedValue, assessmentClass1, neighbourhood);
+        return String.format("Account = %s" + newline +
+                        "Address = %s" + newline +
+                        "Assessed Value = $%,.2f" + newline +
+                        "Assessment Class = %s" + newline +
+                        "Neighbourhood = %s" + newline,
+                accountNumber, address, assessedValue, assessmentClass, neighbourhood);
     }
 
     // Override equals to use accountNumber
@@ -71,16 +68,15 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         return false;
     }
 
-    //Override hash based on equals to also have same hash code
+    // Override hashCode based on equals
     @Override
     public int hashCode() {
         return Objects.hash(accountNumber);
     }
 
-    //Compare two property assessment objects based on assessedValue
+    // Compare two property assessment objects based on assessedValue
     @Override
     public int compareTo(PropertyAssessment o) {
         return Double.compare(this.assessedValue, o.assessedValue);
-        // if equal this is return 0, if higher return 1, if lower return -1
     }
 }
