@@ -256,11 +256,7 @@ public class PropertyAssessments {
     }
 
     /**
-     * This is not good function but work temp.
-     * This method I'm changing the assessments list and then bring it back
-     * This can mess up the data if something goes wrong
-     * Can be refactored using a data.Neighbourhood class
-     * ASK for help regarding this
+     * Find properties by neighbourhood
      * @param neighbourhood - name of neighbourhood target
      * @return PropertyAssessments
      */
@@ -281,6 +277,35 @@ public class PropertyAssessments {
              PropertyAssessments neighbourhoodAssessments = new PropertyAssessments(targetNeighbourHood);
                 return neighbourhoodAssessments;
         }
+    }
+
+    /**
+     * Filters properties by assessment class and returns a new PropertyAssessments object.
+     * @param assessmentClassQuery The assessment class name to filter by (e.g., "Residential").
+     * @return A PropertyAssessments object with only the matching properties.
+     */
+    public PropertyAssessments findByAssessmentClass(String assessmentClassQuery) {
+        List<PropertyAssessment> filtered = new ArrayList<>();
+
+        for (PropertyAssessment assessment : assessments) {
+            AssessmentClass ac = assessment.getAssessmentClass();
+
+            // If 100%, only check the first class.
+            if ("100".equals(ac.getAssessmentPrecent1())) {
+                if (ac.getAssessmentClass1().equalsIgnoreCase(assessmentClassQuery)) {
+                    filtered.add(assessment);
+                }
+            } else {
+                // Otherwise, check all three class fields.
+                if (ac.getAssessmentClass1().equalsIgnoreCase(assessmentClassQuery) ||
+                        ac.getAssessmentClass2().equalsIgnoreCase(assessmentClassQuery) ||
+                        ac.getAssessmentClass3().equalsIgnoreCase(assessmentClassQuery)) {
+                    filtered.add(assessment);
+                }
+            }
+        }
+
+        return new PropertyAssessments(filtered);
     }
 
 

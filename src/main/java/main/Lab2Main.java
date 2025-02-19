@@ -20,7 +20,8 @@ public class Lab2Main {
             System.out.println("min = $" + String.format("%,.2f", propertyAssessments.getMinValue()));
             System.out.println("max = $" + String.format("%,.2f", propertyAssessments.getMaxValue()));
             System.out.println("mean = $" + String.format("%,.2f", propertyAssessments.getMeanAssessedValue()));
-            System.out.println("range =$" + String.format("%,.2f", propertyAssessments.getMinValue()) + " - " + String.format("%,.2f", propertyAssessments.getMaxValue()));
+            double range = propertyAssessments.getMaxValue() - propertyAssessments.getMinValue();
+            System.out.println("range =$" + String.format("%,.2f", range));
             System.out.println("median = $" + String.format("%,.2f", propertyAssessments.getMedianAssessedValue()));
             System.out.println();
             // Get account number from client

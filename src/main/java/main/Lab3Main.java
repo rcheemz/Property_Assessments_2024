@@ -1,5 +1,6 @@
 package main;
 
+import data.PropertyAssessment;
 import logic.PropertyAssessments;
 
 import java.awt.desktop.SystemEventListener;
@@ -29,10 +30,23 @@ public class Lab3Main {
             }
 
             else {
-                System.out.println("There are "+ neighbourHoods.getSize() + "properties in " + neighbourhood);
+                System.out.println("There are "+ neighbourHoods.getSize() + " properties in " + neighbourhood);
                 System.out.println("The mean value is CAD " + neighbourHoods.getMeanAssessedValue());
                 System.out.println("The median value is CAD " + neighbourHoods.getMedianAssessedValue());
             }
+            System.out.print("\nPlease enter an assessment class: ");
+            String assessmentClass = scanner.nextLine();
+
+            PropertyAssessments filteredByClass = propertyAssessments.findByAssessmentClass(assessmentClass);
+            if (filteredByClass.getSize() == 0) {
+                System.out.println("No properties found for assessment class: " + assessmentClass);
+            } else {
+                System.out.println("There are " + filteredByClass.getSize() + " " + assessmentClass + " properties in Edmonton");
+                System.out.println("The min value is CAD " + filteredByClass.getMinValue());
+                System.out.println("The max value is CAD " + filteredByClass.getMaxValue());
+            }
+
+
 
         }
         catch (Exception e){
@@ -41,5 +55,7 @@ public class Lab3Main {
             scanner.close();
         }
     }
+
+
 }
 
