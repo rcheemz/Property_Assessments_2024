@@ -49,13 +49,14 @@ public class AssessmentClass {
         return assessmentClass3;
     }
 
+    //FIX TO STRING
     @Override
     public String toString() {
         if (assessmentPrecent1.equals("100")) {
             return String.format("%s",assessmentClass1);
         }
         else {
-            return String.format("%s,%s,%s,%s,%s,%s",assessmentPrecent1,assessmentPrecent2,assessmentPrecent3,assessmentClass1,assessmentClass2,assessmentClass3);
+            return String.format("%s%%, %s%%, %s%%, %s, %s, %s",assessmentPrecent1,assessmentPrecent2,assessmentPrecent3,assessmentClass1,assessmentClass2,assessmentClass3);
         }
     }
 

@@ -285,7 +285,7 @@ public class PropertyAssessments {
      * @return A PropertyAssessments object with only the matching properties.
      */
     public PropertyAssessments findByAssessmentClass(String assessmentClassQuery) {
-        List<PropertyAssessment> filtered = new ArrayList<>();
+        List<PropertyAssessment> assessmentClassAssessments = new ArrayList<>();
 
         for (PropertyAssessment assessment : assessments) {
             AssessmentClass ac = assessment.getAssessmentClass();
@@ -293,19 +293,19 @@ public class PropertyAssessments {
             // If 100%, only check the first class.
             if ("100".equals(ac.getAssessmentPrecent1())) {
                 if (ac.getAssessmentClass1().equalsIgnoreCase(assessmentClassQuery)) {
-                    filtered.add(assessment);
+                    assessmentClassAssessments.add(assessment);
                 }
             } else {
                 // Otherwise, check all three class fields.
                 if (ac.getAssessmentClass1().equalsIgnoreCase(assessmentClassQuery) ||
                         ac.getAssessmentClass2().equalsIgnoreCase(assessmentClassQuery) ||
                         ac.getAssessmentClass3().equalsIgnoreCase(assessmentClassQuery)) {
-                    filtered.add(assessment);
+                    assessmentClassAssessments.add(assessment);
                 }
             }
         }
 
-        return new PropertyAssessments(filtered);
+        return new PropertyAssessments(assessmentClassAssessments);
     }
 
 
