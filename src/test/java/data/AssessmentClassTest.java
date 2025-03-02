@@ -1,11 +1,6 @@
 package data;
-import data.*;
-import logic.PropertyAssessments;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class AssessmentClassTest {

@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class PropertyAssessment implements Comparable<PropertyAssessment> {
     private String accountNumber;
-    private Address address;
-    private Neighbourhood neighbourhood;
+    private Address address; // Address object
+    private Neighbourhood neighbourhood; // NeighbourHood object
     private double assessedValue;
-    private AssessmentClass assessmentClass; // Updated to use AssessmentClass object
+    private AssessmentClass assessmentClass; // AssessmentClass object
 
     // Default Constructor
     public PropertyAssessment() {
@@ -18,6 +18,7 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         this.assessmentClass = new AssessmentClass(); // Initialize empty
     }
 
+    // Constructor to initialize a property assessment object
     public PropertyAssessment(String accountNumber, Address address, Neighbourhood neighbourhood, String ward, double assessedValue, AssessmentClass assessmentClass) {
         this.accountNumber = accountNumber;
         this.address = address;
@@ -26,7 +27,7 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         this.assessmentClass = assessmentClass;
     }
 
-    // Getters
+    // Get & set methods
     public double getAssessedValue() {
         return assessedValue;
     }
@@ -47,8 +48,8 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         return assessmentClass;
     }
 
-    // Convert object data to string
-    @Override
+    // Convert property assessment object to string
+    @Override // Override toString method
     public String toString() {
         String newline = System.lineSeparator();
         return String.format("Account = %s" + newline +
@@ -60,7 +61,7 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     }
 
     // Override equals to use accountNumber
-    @Override
+    @Override // Override equals method
     public boolean equals(Object obj) {
         if (obj instanceof PropertyAssessment) {
             return this.accountNumber.equals(((PropertyAssessment) obj).accountNumber);
@@ -69,7 +70,7 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     }
 
     // Override hashCode based on equals
-    @Override
+    @Override // Override hashcode
     public int hashCode() {
         return Objects.hash(accountNumber);
     }

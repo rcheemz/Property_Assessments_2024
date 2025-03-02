@@ -7,12 +7,15 @@ public class Address {
     private String suite;
     private String street;
 
+    // Constructor to initialize an address object
     public Address(String houseNumber, String suite, String street) {
         this.houseNumber = houseNumber;
         this.suite = suite;
         this.street = street;
     }
 
+
+    // Get & set methods
     public String getHouseNumber() {
         return houseNumber;
     }
@@ -23,12 +26,14 @@ public class Address {
         return street;
     }
 
+    // Converts address object to string
     @Override
     public String toString() {
         return String.format("%s %s %s", suite, houseNumber, street);
     }
 
-    @Override
+    // Compares two address objects based off their properties
+    @Override // Override equals method
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -38,7 +43,8 @@ public class Address {
                 suite.equals(address.suite);
     }
 
-    @Override
+    // Generate a unique hash code for the address object based on equal properties
+    @Override // Override randomly generated hash code
     public int hashCode() {
         return Objects.hash(houseNumber, street, suite);
     }

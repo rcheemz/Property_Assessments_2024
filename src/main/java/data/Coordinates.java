@@ -3,41 +3,49 @@ package data;
 import java.util.Objects;
 
 public class Coordinates {
-    private double latitude;
-    private double longitude;
+    private String latitude;
+    private String longitude;
     private String coordinates;
 
-    public Coordinates(double latitude, double longitude, String coordinates) {
+    // Constructor to initialize a coordinates object
+    public Coordinates(String latitude, String longitude, String coordinates) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.coordinates = coordinates;
     }
-    public double getLatitude() {
+
+
+    // Get & set methods
+    public String getLatitude() {
         return latitude;
     }
-    public double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
     public String getCoordinates() {
         return coordinates;
     }
+
+    // Converts coordinates object to string
     @Override
     public String toString() {
         return String.format("%s", coordinates);
     }
 
+    // Compares two coordinates objects based off their properties
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Coordinates that = (Coordinates) o;
-        return coordinates.equals(that.coordinates);
+        return longitude.equals(that.longitude) &&
+                latitude.equals(that.latitude);
     }
 
+    // Generate a unique hash code for the coordinates object based off their equal properties
     @Override
     public int hashCode() {
         return Objects.hash(coordinates);
     }
-
 
 }

@@ -19,21 +19,21 @@ public class PropertyAssessments {
     private List<PropertyAssessment> assessments;
     private String filePath;
 
-    // takes list of properties
+    // Takes a list of PropertyAssessment objects
     public PropertyAssessments(List<PropertyAssessment> assessments){
         this.assessments = assessments;
     }
 
 
-    // Initialize assessments list to store data.PropertyAssessment objects
+    // Constructor that initialize PropertyAssessments list to store PropertyAssessment objects
     public PropertyAssessments(String csvFileName) throws CsvValidationException {
 
-        this.assessments = new ArrayList<>();
-        this.filePath =  "data/"+ csvFileName;
+        this.assessments = new ArrayList<>(); // Initialize an empty list
+        this.filePath =  "data/"+ csvFileName; // Find the file path
         try {
-            loadFromCSV(filePath);
+            loadFromCSV(filePath); // try to load the file
         } catch (IOException e) {
-            throw new CsvValidationException("Error reading CSV file: " + csvFileName);
+            throw new CsvValidationException("Error reading CSV file: " + csvFileName); // if error in loading file throw error
         }
     }
 
@@ -54,6 +54,7 @@ public class PropertyAssessments {
                 }
             }
 
+            // Extract the data we need from the CSV rows
             String accountNumber = row[0];
             String suite = row[1];
             String houseNumber = row[2];
@@ -63,17 +64,18 @@ public class PropertyAssessments {
             String ward = row[7];
             String assessedValue = row[8];
 
-            // If assessed value is empty, set to 0
+            // If assessed value is empty, set to 0.0 because it is double
             double parsedValue = assessedValue.isEmpty() ? 0.0 : Double.parseDouble(assessedValue);
 
-            // Extract AssessmentClass fields
-            String percent1 = row[12].isEmpty() ? "0" : row[12];
+            // Exract data for assessment class
+            String percent1 = row[12].isEmpty() ? "0" : row[12]; // if no percent set string 0
             String percent2 = row[13].isEmpty() ? "0" : row[13];
             String percent3 = row[14].isEmpty() ? "0" : row[14];
-            String class1 = row[15].isEmpty() ? "Unknown" : row[15];
+            String class1 = row[15].isEmpty() ? "Unknown" : row[15]; // if no class set string unknown
             String class2 = row[16].isEmpty() ? "Unknown" : row[16];
             String class3 = row[17].isEmpty() ? "Unknown" : row[17];
 
+            // Make assessment class object, address object, and neighbourhood object
             AssessmentClass assessmentClass = new AssessmentClass(percent1, percent2, percent3, class1, class2, class3);
             Address address = new Address(houseNumber, suite, street);
             Neighbourhood neighbourhood = new Neighbourhood(neighbourhoodId, neighbourhoodName, ward);
@@ -88,7 +90,7 @@ public class PropertyAssessments {
                     assessmentClass));
         }
 
-        System.out.println("Total properties loaded: " + assessments.size());
+        //System.out.println("Total properties loaded: " + assessments.size());
     }
 
 
@@ -132,12 +134,11 @@ public class PropertyAssessments {
 
 
     /**
-     * Get total number of rows in the assessments list
-     * @return the lowest assessed value among all property assessments
+     * Get the total number of PropertyAssessment Objects in PropertyAssessments
+     * @return the size of the list
      */
     public int getSize(){
-
-        return assessments.size();
+        return assessments.size(); // return size of list
     }
 
     /**
@@ -148,13 +149,13 @@ public class PropertyAssessments {
      */
     public double getMinValue() {
 
-        // Initialize minimumValue to the largest double value in java
+        // Initialize minimumValue to the largest double value possible in java
         double minimumValue = Double.MAX_VALUE;
 
         // Loop through each row in dataset
         for (PropertyAssessment assessment : assessments) {
             try {
-                // Get value in row at column index use parseDouble to convert String to Double
+                // Get the assessedValue of the assessment
                 double value = assessment.getAssessedValue();
 
                 // If this value is less than the current minimumValue
@@ -162,9 +163,10 @@ public class PropertyAssessments {
                     minimumValue = value; // Set minimumValue to this value
                 }
             }
-            // If not a convertable number or in Array skip line
+
+            // If there is a number formating issue or might be null just in case
             catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                // Skip the row if it is an invalid row
+                // Skip the assessment
             }
         }
 
@@ -179,7 +181,7 @@ public class PropertyAssessments {
      */
     public double getMaxValue() {
 
-        // Initialize maximumValue to the smallest double value in java
+        // Initialize maximumValue to the smallest possible double value in java
         double maximumValue = Double.MIN_VALUE;
 
         // Loop through each row in dataset

@@ -10,6 +10,7 @@ public class AssessmentClass {
     private String assessmentClass2;
     private String assessmentClass3;
 
+    // Empty Constructor
     public AssessmentClass() {
         this.assessmentPrecent1 = "";
         this.assessmentPrecent2 = "";
@@ -18,6 +19,8 @@ public class AssessmentClass {
         this.assessmentClass2 = "";
         this.assessmentClass3 = "";
     }
+
+    // Constructor to initialize an assessment class object
     public AssessmentClass(String assessmentPrecent1, String assessmentPrecent2, String assessmentPrecent3,
                            String assessmentClass1, String assessmentClass2, String assessmentClass3) {
         this.assessmentPrecent1 = assessmentPrecent1;
@@ -28,7 +31,7 @@ public class AssessmentClass {
         this.assessmentClass3 = assessmentClass3;
     }
 
-
+    // Get & set methods
     public String getAssessmentPrecent1() {
         return assessmentPrecent1;
     }
@@ -49,7 +52,7 @@ public class AssessmentClass {
         return assessmentClass3;
     }
 
-    //FIX TO STRING
+    // Converts assessment class object to string
     @Override
     public String toString() {
         if (assessmentPrecent1.equals("100")) {
@@ -60,6 +63,7 @@ public class AssessmentClass {
         }
     }
 
+    // Compares two assessment class objects based off their properties
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,6 +77,8 @@ public class AssessmentClass {
                 assessmentClass3.equals(that.assessmentClass3);
 
     }
+
+    // Generate a unique hash code for the assessment object based on equal properties
     @Override
     public int hashCode() {
         return Objects.hash(assessmentPrecent1,assessmentPrecent2,assessmentPrecent3,assessmentClass1,assessmentClass2,assessmentClass3);
