@@ -19,17 +19,19 @@ public class PropertyAssessments {
     private List<PropertyAssessment> assessments;
     private String filePath;
 
-    // Takes a list of PropertyAssessment objects
+    // Constructor that takes a list of PropertyAssessment objects
     public PropertyAssessments(List<PropertyAssessment> assessments){
         this.assessments = assessments;
     }
 
 
-    // Constructor that initialize PropertyAssessments list to store PropertyAssessment objects
+    // Constructor that initialize PropertyAssessments list from a file to store PropertyAssessment objects
     public PropertyAssessments(String csvFileName) throws CsvValidationException {
 
         this.assessments = new ArrayList<>(); // Initialize an empty list
         this.filePath =  "data/"+ csvFileName; // Find the file path
+
+        // Here I will catch if we can load the file so the program doesn't crash
         try {
             loadFromCSV(filePath); // try to load the file
         } catch (IOException e) {
@@ -44,6 +46,11 @@ public class PropertyAssessments {
      */
     public void loadFromCSV(String csvFileName) throws IOException {
         String[][] data = readData(csvFileName);
+
+        // Throw exception if the file is empty
+        if (data.length == 0){
+            throw new IOException("Empty CSV file");
+        }
 
         for (String[] row : data) {
             // Ensure every row has exactly 18 columns by filling missing values
@@ -68,6 +75,7 @@ public class PropertyAssessments {
             double parsedValue = assessedValue.isEmpty() ? 0.0 : Double.parseDouble(assessedValue);
 
             // Exract data for assessment class
+            // Setting the classes that are null with values will help later on when trying to find by assessment class
             String percent1 = row[12].isEmpty() ? "0" : row[12]; // if no percent set string 0
             String percent2 = row[13].isEmpty() ? "0" : row[13];
             String percent3 = row[14].isEmpty() ? "0" : row[14];
@@ -106,6 +114,8 @@ public class PropertyAssessments {
         // Create a stream to read the CSV file
         String[][] data;
         int index = 0;
+
+        // Here we will catch is if we can read the file
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(csvFileName))) {
             // Skip the header - this assumes the first line is a header
             reader.readLine();
@@ -127,6 +137,11 @@ public class PropertyAssessments {
 
                 data[index++] = values;
             }
+        }
+
+        // If the file is empty or only contains headers throw exception
+        if (index == 0){
+            throw new IOException("Error reading CSV file: " + csvFileName);
         }
 
         return Arrays.copyOf(data, index);
@@ -194,31 +209,37 @@ public class PropertyAssessments {
                 if (value > maximumValue) {
                     maximumValue = value;// Set maximumValue to this value
                 }
-            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                // Skip the row if it is an invalid row
+            }
+
+            // If there is a number formating issue or might be null just in case
+            catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                // Skip the assessment
             }
         }
-
         return maximumValue; // Return the maximum value
     }
 
     /**
-     * get mean assessed value
+     * get the mean assessed value
      * @return the mean assessed value of all property assessments
      */
     public double getMeanAssessedValue() {
-        // initialize
-        double mean = 0.0;
+        // Initialize the total value of assessed properties
+        double total = 0.0;
 
+        // Loop through assessments and add their assessed values to the total
         for (PropertyAssessment assessment : assessments) {
-            mean += assessment.getAssessedValue();
+            total += assessment.getAssessedValue();
         }
-        return mean/assessments.size();
+        // Return the total divided by the size to get the mean value
+        return total/assessments.size();
     }
 
     /**
+     * get the median assessed value
      * @return the median assessed value of all property assessments
      */
+
     public double getMedianAssessedValue() {
         List<Double> values = assessments.stream()
                 // map all assessed values
@@ -245,16 +266,19 @@ public class PropertyAssessments {
 
     /**
      * Finds property assessments by account number
-     *
      * @param accountNumber the account number
+     * @return PropertyAssessment object
      */
-    public String findByAccountNumber(String accountNumber) {
+    public PropertyAssessment findByAccountNumber(String accountNumber) {
+        // Loop through each assessment
         for (PropertyAssessment assessment : assessments) {
+            // if the account number of the assessment equals the account number given
             if (accountNumber.equals(assessment.getAccountNumber())) {
-                return assessment.toString();
+                // return that assessment to string
+                return assessment;
             }
         }
-        return "Error: invalid account number: " + accountNumber;
+        return null;
     }
 
     /**
@@ -263,19 +287,29 @@ public class PropertyAssessments {
      * @return PropertyAssessments
      */
     public PropertyAssessments findByNeighbourhood(String neighbourhood) {
+        // Initialize an empty list for the target neighbourhood
         List<PropertyAssessment> targetNeighbourHood = new ArrayList<>();
 
         // Filter properties by neighbourhood
         for (PropertyAssessment assessment : assessments) {
+
+            // If the neighbourhood names are equal
             if (neighbourhood.equalsIgnoreCase(assessment.getNeighbourhood().getNeighbourhoodName())) {
+
+                // Add the assessment to the list
                 targetNeighbourHood.add(assessment);
             }
         }
 
+        // If list is empty meaning no assessments in that neighbour
         if (targetNeighbourHood.isEmpty()) {
+            // return null
             return null;
         }
+
+        // Else if there are assessments in the list
         else {
+            // Make a new Property Assessments object with this list of PropertyAssessment objects
              PropertyAssessments neighbourhoodAssessments = new PropertyAssessments(targetNeighbourHood);
                 return neighbourhoodAssessments;
         }
@@ -287,26 +321,39 @@ public class PropertyAssessments {
      * @return A PropertyAssessments object with only the matching properties.
      */
     public PropertyAssessments findByAssessmentClass(String assessmentClassQuery) {
+        // Initialize an empty list for the assessment class
         List<PropertyAssessment> assessmentClassAssessments = new ArrayList<>();
 
+        // Loop through the assessments
         for (PropertyAssessment assessment : assessments) {
+
+            // Get the assessment class of the assessment
             AssessmentClass ac = assessment.getAssessmentClass();
 
             // If 100%, only check the first class.
             if ("100".equals(ac.getAssessmentPrecent1())) {
+                // If the class is equal to the target class
                 if (ac.getAssessmentClass1().equalsIgnoreCase(assessmentClassQuery)) {
+                    // Add to the list of assessments
                     assessmentClassAssessments.add(assessment);
                 }
-            } else {
-                // Otherwise, check all three class fields.
+
+            }
+
+            // If it's not 100%
+            else {
+                // Check all three class fields.
                 if (ac.getAssessmentClass1().equalsIgnoreCase(assessmentClassQuery) ||
                         ac.getAssessmentClass2().equalsIgnoreCase(assessmentClassQuery) ||
                         ac.getAssessmentClass3().equalsIgnoreCase(assessmentClassQuery)) {
+
+                    // Add to the list of assessments
                     assessmentClassAssessments.add(assessment);
                 }
             }
         }
 
+        // Return a new property assessments object with list of assessments with target class
         return new PropertyAssessments(assessmentClassAssessments);
     }
 
