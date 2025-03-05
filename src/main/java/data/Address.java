@@ -19,11 +19,22 @@ public class Address {
     public String getHouseNumber() {
         return houseNumber;
     }
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
     public String getSuite() {
         return suite;
     }
+    public void setSuite(String suite) {
+        this.suite = suite;
+    }
+
     public String getStreet() {
         return street;
+    }
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     // Converts address object to string
@@ -38,9 +49,9 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return houseNumber.equals(address.houseNumber) &&
-                street.equals(address.street) &&
-                suite.equals(address.suite);
+        return houseNumber.equalsIgnoreCase(address.houseNumber) &&
+                street.equalsIgnoreCase(address.street) &&
+                suite.equalsIgnoreCase(address.suite);
     }
 
     // Generate a unique hash code for the address object based on equal properties

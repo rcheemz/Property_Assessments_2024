@@ -35,13 +35,22 @@ public class AssessmentClass {
     public String getAssessmentPrecent1() {
         return assessmentPrecent1;
     }
-
     public String getAssessmentPrecent2() {
         return assessmentPrecent2;
     }
     public String getAssessmentPrecent3() {
         return assessmentPrecent3;
     }
+    public void setAssessmentPrecent1(String assessmentPrecent1) {
+        this.assessmentPrecent1 = assessmentPrecent1;
+    }
+    public void setAssessmentPrecent2(String assessmentPrecent2) {
+        this.assessmentPrecent2 = assessmentPrecent2;
+    }
+    public void setAssessmentPrecent3(String assessmentPrecent3) {
+        this.assessmentPrecent3 = assessmentPrecent3;
+    }
+
     public String getAssessmentClass1() {
         return assessmentClass1;
     }
@@ -50,6 +59,16 @@ public class AssessmentClass {
     }
     public String getAssessmentClass3() {
         return assessmentClass3;
+    }
+    public void setAssessmentClass1(String assessmentClass1) {
+        this.assessmentClass1 = assessmentClass1;
+    }
+    public void setAssessmentClass2(String assessmentClass2) {
+        this.assessmentClass2 = assessmentClass2;
+    }
+
+    public void setAssessmentClass3(String assessmentClass3) {
+        this.assessmentClass3 = assessmentClass3;
     }
 
     // Converts assessment class object to string

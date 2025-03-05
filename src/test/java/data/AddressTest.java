@@ -19,10 +19,12 @@ public class AddressTest {
 
     @Test
     public void testEquals() {
-        Address address2 = new Address("123", "34", "Main St");
-        Address address3 = new Address("123", "32", "Main St");
+        Address address2 = new Address("123", "34", "Main St"); // same address
+        Address address3 = new Address("123", "32", "Main St"); // wrong suite
+        Address address4 = new Address("123", "34", "main St"); // ignore case
         assertEquals(address2, address); // Return True
         assertNotEquals(address3, address); // Return True
+        assertEquals(address4, address); // Return True
         assertEquals(address.hashCode(), address2.hashCode()); // Return True
     }
 

@@ -93,7 +93,6 @@ public class PropertyAssessments {
                     accountNumber,
                     address,
                     neighbourhood,
-                    ward,
                     parsedValue,
                     assessmentClass));
         }

@@ -18,13 +18,22 @@ public class Neighbourhood {
     public String getNeighbourhoodId() {
         return neighbourhoodId;
     }
+    public void setNeighbourhoodId(String neighbourhoodId) {
+        this.neighbourhoodId = neighbourhoodId;
+    }
 
     public String getNeighbourhoodName() {
         return neighbourhoodName;
     }
+    public void setNeighbourhoodName(String neighbourhoodName) {
+        this.neighbourhoodName = neighbourhoodName;
+    }
 
     public String getWard() {
         return ward;
+    }
+    public void setWard(String ward) {
+        this.ward = ward;
     }
 
     // Converts neighbourhood object to string

@@ -19,7 +19,7 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     }
 
     // Constructor to initialize a property assessment object
-    public PropertyAssessment(String accountNumber, Address address, Neighbourhood neighbourhood, String ward, double assessedValue, AssessmentClass assessmentClass) {
+    public PropertyAssessment(String accountNumber, Address address, Neighbourhood neighbourhood, double assessedValue, AssessmentClass assessmentClass) {
         this.accountNumber = accountNumber;
         this.address = address;
         this.neighbourhood = neighbourhood;
@@ -66,8 +66,6 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
     public void setAssessmentClass(AssessmentClass assessmentClass) {
         this.assessmentClass = assessmentClass;
     }
-
-
 
     // Convert property assessment object to string
     @Override // Override toString method

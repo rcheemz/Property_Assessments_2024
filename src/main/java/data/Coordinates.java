@@ -19,12 +19,24 @@ public class Coordinates {
     public String getLatitude() {
         return latitude;
     }
-    public String getLongitude() {
-        return longitude;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
+
     public String getCoordinates() {
         return coordinates;
     }
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
 
     // Converts coordinates object to string
     @Override

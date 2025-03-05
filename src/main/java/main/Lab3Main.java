@@ -52,6 +52,7 @@ public class Lab3Main {
                 System.out.println("There are " + String.format("%,d",filteredByClass.getSize()) + " " + assessmentClass + " properties in Edmonton");
                 System.out.println("The min value is CAD " + String.format("%,.0f",filteredByClass.getMinValue()));
                 System.out.println("The max value is CAD " + String.format("%,.0f",filteredByClass.getMaxValue()));
+
             }
 
         }
