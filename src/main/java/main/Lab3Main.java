@@ -33,9 +33,9 @@ public class Lab3Main {
 
             else {
                 // Use get.size, get mean, get median methods to get data for neighbourhood
-                System.out.println("There are "+ neighbourHoods.getSize() + " properties in " + neighbourhood);
-                System.out.println("The mean value is CAD " + String.format("%,.2f", neighbourHoods.getMeanAssessedValue()));
-                System.out.println("The median value is CAD " + String.format("%,.2f", neighbourHoods.getMedianAssessedValue()));
+                System.out.println("There are "+ String.format("%,d",neighbourHoods.getSize()) + " properties in " + neighbourhood);
+                System.out.println("The mean value is CAD " + String.format("%,.0f", neighbourHoods.getMeanAssessedValue()));
+                System.out.println("The median value is CAD " + String.format("%,.0f", neighbourHoods.getMedianAssessedValue()));
             }
             System.out.print("\nPlease enter an assessment class: ");
             String assessmentClass = scanner.nextLine();
@@ -49,9 +49,9 @@ public class Lab3Main {
             } else {
 
                 // Print properties using get methods
-                System.out.println("There are " + filteredByClass.getSize() + " " + assessmentClass + " properties in Edmonton");
-                System.out.println("The min value is CAD " + filteredByClass.getMinValue());
-                System.out.println("The max value is CAD " + filteredByClass.getMaxValue());
+                System.out.println("There are " + String.format("%,d",filteredByClass.getSize()) + " " + assessmentClass + " properties in Edmonton");
+                System.out.println("The min value is CAD " + String.format("%,.0f",filteredByClass.getMinValue()));
+                System.out.println("The max value is CAD " + String.format("%,.0f",filteredByClass.getMaxValue()));
             }
 
         }

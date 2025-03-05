@@ -20,17 +20,17 @@ public class Lab2Main {
             PropertyAssessments propertyAssessments = new PropertyAssessments(csvFileName);
 
             // Get the number of assessments using getSize method
-            System.out.println("n = " + propertyAssessments.getSize());
+            System.out.println("n = " + String.format("%,d",propertyAssessments.getSize()));
 
             // Get the min/max/mean/range/median values of the assessments and print
-            System.out.println("min = $" + String.format("%,.2f", propertyAssessments.getMinValue()));
-            System.out.println("max = $" + String.format("%,.2f", propertyAssessments.getMaxValue()));
-            System.out.println("mean = $" + String.format("%,.2f", propertyAssessments.getMeanAssessedValue()));
+            System.out.println("min = $" + String.format("%,.0f", propertyAssessments.getMinValue()));
+            System.out.println("max = $" + String.format("%,.0f", propertyAssessments.getMaxValue()));
+            System.out.println("mean = $" + String.format("%,.0f", propertyAssessments.getMeanAssessedValue()));
 
             // use max and min methods to get range. there is no range method in PropertyAssessment because it seems unnecessary
             double range = propertyAssessments.getMaxValue() - propertyAssessments.getMinValue();
-            System.out.println("range =$" + String.format("%,.2f", range));
-            System.out.println("median = $" + String.format("%,.2f", propertyAssessments.getMedianAssessedValue()));
+            System.out.println("range =$" + String.format("%,.0f", range));
+            System.out.println("median = $" + String.format("%,.0f", propertyAssessments.getMedianAssessedValue()));
             System.out.println();
 
 
@@ -75,12 +75,12 @@ public class Lab2Main {
                 System.out.println("Statistics (neighbourhood =" + neighbourhood);
                 //********** fix formating of string to return numbers properly**********
                 System.out.println("n = " + neighbourHoods.getSize());
-                System.out.println("min = $" + String.format("%,.2f", neighbourHoods.getMinValue()));
-                System.out.println("max = $" + String.format("%,.2f", neighbourHoods.getMaxValue()));
-                System.out.println("mean = $" + String.format("%,.2f", neighbourHoods.getMeanAssessedValue()));
+                System.out.println("min = $" + String.format("%,.0f", neighbourHoods.getMinValue()));
+                System.out.println("max = $" + String.format("%,.0f", neighbourHoods.getMaxValue()));
+                System.out.println("mean = $" + String.format("%,.0f", neighbourHoods.getMeanAssessedValue()));
                 double neighourhoodRange = neighbourHoods.getMaxValue() - neighbourHoods.getMinValue();
-                System.out.println("range = $" + String.format("%,.2f", neighourhoodRange));
-                System.out.println("median = $" + String.format("%.2f",neighbourHoods.getMedianAssessedValue()));
+                System.out.println("range = $" + String.format("%,.0f", neighourhoodRange));
+                System.out.println("median = $" + String.format("%,.0f",neighbourHoods.getMedianAssessedValue()));
                 System.out.println();
             }
         } catch (Exception e) {

@@ -98,6 +98,7 @@ public class PropertyAssessments {
                     assessmentClass));
         }
 
+        // Debug testing
         //System.out.println("Total properties loaded: " + assessments.size());
     }
 
@@ -356,6 +357,4 @@ public class PropertyAssessments {
         // Return a new property assessments object with list of assessments with target class
         return new PropertyAssessments(assessmentClassAssessments);
     }
-
-
 }

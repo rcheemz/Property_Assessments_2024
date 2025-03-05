@@ -67,6 +67,8 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         this.assessmentClass = assessmentClass;
     }
 
+
+
     // Convert property assessment object to string
     @Override // Override toString method
     public String toString() {
@@ -77,7 +79,7 @@ public class PropertyAssessment implements Comparable<PropertyAssessment> {
         // The default toString will only display data in this format
         return String.format("Account = %s" + newline +
                         "Address = %s" + newline +
-                        "Assessed Value = $%,.2f" + newline +
+                        "Assessed Value = $%,.0f" + newline +
                         "Assessment Class = %s" + newline +
                         "Neighbourhood = %s" + newline,
                 accountNumber, address, assessedValue, assessmentClass, neighbourhood);
